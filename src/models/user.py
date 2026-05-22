@@ -6,5 +6,6 @@ from src.models.base import db
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
+    produto: Mapped[str] = mapped_column()
+    cliente: Mapped[str] = mapped_column()
+    valor_venda: Mapped[float] = mapped_column()

@@ -1,3 +1,4 @@
+from flask import jsonify
 from flask import Blueprint, request
 from src.models.user import User
 from src.models.user import db
@@ -8,19 +9,6 @@ from http import HTTPStatus
 
 
 simple_user = Blueprint('user', __name__)
-
-
-
-from http import HTTPStatus
-
-from flask import request
-from marshmallow import ValidationError
-
-from src.models.base import db
-from src.models.user import User
-from src.views.user import CreatedeUserSchema
-
-
 def create_user():
 
     user_schema = CreatedeUserSchema()
@@ -35,6 +23,26 @@ def create_user():
         }, HTTPStatus.UNPROCESSABLE_ENTITY
 
     user = User(
+        produto=data["produto"],
+        cliente=data["cliente"],
+        valor_venda=data['valor_venda']
+    )
+    
+
+    db.session.add(user)
+
+    db.session.commit()
+
+    return {
+        "message": "Usuário criado!"
+    }, HTTPStatus.CREATED
+
+@simple_user.route("/user/created", methods=["POST"])
+def created_user_BOT():
+    
+    data = request.get_json()
+    
+    user = User(
         username=data["username"],
         email=data["email"]
     )
@@ -46,13 +54,20 @@ def create_user():
     return {
         "message": "Usuário criado!"
     }, HTTPStatus.CREATED
+    
+
 
 def user_list():
-    query = db.select(User)
-    users = db.session.execute(query).scalars()
-    user_schema = UserSchema(many=True)
-    return user_schema.dump(users)
 
+    query = db.select(User)
+
+    users = db.session.execute(query).scalars().all()
+
+    user_schema = UserSchema(many=True)
+
+    return jsonify(user_schema.dump(users))
+ 
+ 
 @simple_user.route("/user", methods=["POST", "GET"])
 def user_create():
 

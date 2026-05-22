@@ -1,24 +1,30 @@
 import os
+import threading
 
 from src.models.base import db, migrate
+from src.views.main import bot
 from flask_marshmallow import Marshmallow
-
 from flask import Flask
 
 ma = Marshmallow()
 
 
+def iniciar_bot():
+    bot.infinity_polling(skip_pending=True)
+
+
+
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+#    app = Flask(__name__, instance_relative_config=True)
 #    app.config.from_mapping(
 #        SECRET_KEY='dev',
 #        SQLALCHEMY_DATABASE_URI = "sqlite:///project.db",
 #    )
+
     app.config.from_mapping(
         SECRET_KEY='dev',
-    #   SQLALCHEMY_DATABASE_URI= 'sqlite:///agt_fina.sqlite',
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'],
+        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'],
         JWT_SECRET_KEY = "super_secret"
     )
 
@@ -33,10 +39,13 @@ def create_app(test_config=None):
     from src.controllers.user import simple_user
     
     ma.init_app(app)
-    
     db.init_app(app)
-    
     migrate.init_app(app, db)
     app.register_blueprint(simple_user)
+    
+    thread_bot = threading.Thread(target=iniciar_bot)
+    thread_bot.daemon = True
+    thread_bot.start()
+    
     
     return app
