@@ -1,11 +1,11 @@
 from src.app import ma
 
 from marshmallow import fields
-from src.controllers.user import User
+from src.controllers.user import Product
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = User
+        model = Product
         include_fk = True
         
 class GetUser(ma.Schema):

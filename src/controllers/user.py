@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask import Blueprint, request
-from src.models.user import User
+from src.models.user import Product
 from src.models.user import db
 from src.views.user import UserSchema, CreatedeUserSchema
 from marshmallow import ValidationError
@@ -22,7 +22,7 @@ def create_user():
             "errors": exc.messages
         }, HTTPStatus.UNPROCESSABLE_ENTITY
 
-    user = User(
+    user = Product(
         produto=data["produto"],
         cliente=data["cliente"],
         valor_venda=data['valor_venda']
@@ -42,10 +42,11 @@ def created_user_BOT():
     
     data = request.get_json()
     
-    user = User(
-        username=data["username"],
-        email=data["email"]
-    )
+    user = Product(
+        produto=data["produto"],
+        cliente=data["cliente"],
+        valor_venda=data['valor_venda']
+        )
 
     db.session.add(user)
 
@@ -59,7 +60,7 @@ def created_user_BOT():
 
 def user_list():
 
-    query = db.select(User)
+    query = db.select(Product)
 
     users = db.session.execute(query).scalars().all()
 

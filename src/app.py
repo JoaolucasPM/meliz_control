@@ -1,6 +1,5 @@
 import os
-import threading
-
+from threading import Thread
 from src.models.base import db, migrate
 from src.views.main import bot
 from flask_marshmallow import Marshmallow
@@ -43,9 +42,16 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     app.register_blueprint(simple_user)
     
-    thread_bot = threading.Thread(target=iniciar_bot)
-    thread_bot.daemon = True
-    thread_bot.start()
+    if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+
+        bot_thread = Thread(target=iniciar_bot)
+
+        bot_thread.daemon = True
+
+        bot_thread.start()
+
+    
+    
     
     
     return app
