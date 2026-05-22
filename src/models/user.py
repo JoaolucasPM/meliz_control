@@ -9,3 +9,4 @@ class User(db.Model):
     produto: Mapped[str] = mapped_column()
     cliente: Mapped[str] = mapped_column()
     valor_venda: Mapped[float] = mapped_column()
+    
