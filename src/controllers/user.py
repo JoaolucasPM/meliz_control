@@ -42,13 +42,13 @@ def created_user_BOT():
     
     data = request.get_json()
     
-    user = Product(
+    product = Product(
         produto=data["produto"],
         nome_cliente=data["nome_cliente"],
         valor_venda=data['valor_venda']
         )
 
-    db.session.add(user)
+    db.session.add(product)
 
     db.session.commit()
 
