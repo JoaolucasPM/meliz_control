@@ -30,7 +30,7 @@ def listar(msg):
 
         return
 
-    texto = '📋 Relatorio de produtos\n\n'
+    texto = '📋 Relatorio de vendas\n\n'
 
     for produto in produtos:
 
