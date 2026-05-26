@@ -22,14 +22,14 @@ def create_user():
             "errors": exc.messages
         }, HTTPStatus.UNPROCESSABLE_ENTITY
 
-    user = Product(
+    product = Product(
         produto=data["produto"],
         cliente=data["cliente"],
         valor_venda=data['valor_venda']
     )
     
 
-    db.session.add(user)
+    db.session.add(product)
 
     db.session.commit()
 
