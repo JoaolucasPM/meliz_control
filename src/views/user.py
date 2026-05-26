@@ -14,7 +14,7 @@ class GetUser(ma.Schema):
 
 class CreatedeUserSchema(ma.Schema):
     produto = fields.String(required=True)
-    cliente = fields.String(required=True)
+    nome_cliente = fields.String(required=True)
     valor_venda = fields.String(required=True)
 
 

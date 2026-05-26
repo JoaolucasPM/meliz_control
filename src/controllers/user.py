@@ -24,7 +24,7 @@ def create_user():
 
     product = Product(
         produto=data["produto"],
-        cliente=data["cliente"],
+        nome_cliente=data["nome_cliente"],
         valor_venda=data['valor_venda']
     )
     
@@ -44,7 +44,7 @@ def created_user_BOT():
     
     user = Product(
         produto=data["produto"],
-        cliente=data["cliente"],
+        nome_cliente=data["nome_cliente"],
         valor_venda=data['valor_venda']
         )
 
